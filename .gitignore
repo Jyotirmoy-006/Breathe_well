@@ -27,4 +27,5 @@ Thumbs.db
 # Audit & Evidence Pack
 .audit/
 reports/
+.stryker-tmp/
 

@@ -159,7 +159,9 @@ describe('Property-Based Domain Invariants (fast-check)', () => {
     const timelineArbitrary: fc.Arbitrary<readonly TimelineForecastPoint[]> = fc
       .array(
         fc.record({
-          hourIso: fc.date().map((d) => d.toISOString()),
+          hourIso: fc
+            .date({ min: new Date('2025-01-01'), max: new Date('2027-01-01'), noInvalidDate: true })
+            .map((d) => d.toISOString()),
           pm25: fc.float({ min: 10, max: 500, noNaN: true }).map((v) => createPm25UgM3(v)),
         }),
         { minLength: 3, maxLength: 48 },
