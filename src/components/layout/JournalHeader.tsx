@@ -7,8 +7,8 @@
 
 import React from 'react';
 
-import { LocationCombobox } from '../../features/location/LocationCombobox';
-import type { LocationItem } from '../../features/location/types';
+import { LocationCombobox } from '../../features/location';
+import type { LocationItem } from '../../features/location';
 import { KeyboardShortcuts } from '../KeyboardShortcuts';
 import { useTheme } from '../theme/ThemeContext';
 import { KeyboardShortcutHint } from '../ui/KeyboardShortcutHint';

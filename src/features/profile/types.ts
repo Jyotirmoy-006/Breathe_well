@@ -3,9 +3,7 @@
  * @description Types for household demographic and dwelling profile builder.
  */
 
-import type { ProfilePreset, UserProfile } from '../../domain/profile/types';
-
-export type { ProfilePreset, UserProfile };
+import type { UserProfile } from '../../domain/profile/types';
 
 export interface ProfileSectionProps {
   readonly profile: UserProfile;

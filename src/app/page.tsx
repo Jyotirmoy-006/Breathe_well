@@ -10,13 +10,13 @@ import React from 'react';
 import { JournalFooter } from '../components/layout/JournalFooter';
 import { JournalHeader } from '../components/layout/JournalHeader';
 import { ThemeProvider } from '../components/theme/ThemeContext';
-import { HeroSection } from '../features/hero/HeroSection';
-import { ImpactSection } from '../features/impact/ImpactSection';
+import { HeroSection } from '../features/hero';
+import { ImpactSection } from '../features/impact';
 import { useJournalState } from '../features/journal/useJournalState';
-import { PlanSection } from '../features/plan/PlanSection';
-import { PrintFamilyPlan } from '../features/print/PrintFamilyPlan';
-import { ProfileSection } from '../features/profile/ProfileSection';
-import { TimelineSection } from '../features/timeline/TimelineSection';
+import { PlanSection } from '../features/plan';
+import { PrintFamilyPlan } from '../features/print';
+import { ProfileSection } from '../features/profile';
+import { TimelineSection } from '../features/timeline';
 
 function JournalContent(): React.JSX.Element {
   const state = useJournalState();
