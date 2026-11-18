@@ -1,0 +1,25 @@
+# Environment
+.env*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# TypeScript
+*.tsbuildinfo
+
+# Turbopack
+.turbo/
+
+# OS
+.DS_Store
+Thumbs.db
