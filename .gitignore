@@ -23,3 +23,8 @@ playwright-report/
 # OS
 .DS_Store
 Thumbs.db
+
+# Audit & Evidence Pack
+.audit/
+reports/
+
