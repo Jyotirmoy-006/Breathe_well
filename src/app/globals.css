@@ -1,30 +1,120 @@
 /**
  * @file globals.css
- * @description Global styles and CSS custom properties for SaafSaans.
+ * @description Design tokens, theme variables, paper textures, and print stylesheets for SaafSaans.
  */
 
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --primary: #1d4ed8;
-  --primary-foreground: #ffffff;
-  --muted-foreground: #6b7280;
+  --background: #f4efe6;
+  --foreground: #16181d;
+  --card: #faf6ee;
+  --card-foreground: #16181d;
+  --muted: #ebe5d8;
+  --muted-foreground: #635e57;
+  --border: #dcd4c5;
+  --primary: #1a5341;
+  --primary-foreground: #f4efe6;
+  --accent: #e8dcc8;
+  --accent-foreground: #16181d;
+
+  /* CPCB AQI scale variables */
+  --cpcb-good: #2e7d32;
+  --cpcb-satisfactory: #558b2f;
+  --cpcb-moderate: #b45309;
+  --cpcb-poor: #c25e00;
+  --cpcb-very-poor: #c62828;
+  --cpcb-severe: #7b1fa2;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
-    --muted-foreground: #94a3b8;
-  }
+.dark,
+[data-theme='night'] {
+  --background: #121418;
+  --foreground: #e6e1d8;
+  --card: #1a1d23;
+  --card-foreground: #e6e1d8;
+  --muted: #252932;
+  --muted-foreground: #9a958c;
+  --border: #2f3542;
+  --primary: #2dd4bf;
+  --primary-foreground: #121418;
+  --accent: #262b35;
+  --accent-foreground: #e6e1d8;
+
+  --cpcb-good: #4caf50;
+  --cpcb-satisfactory: #8bc34a;
+  --cpcb-moderate: #fbbf24;
+  --cpcb-poor: #fb923c;
+  --cpcb-very-poor: #ef4444;
+  --cpcb-severe: #a855f7;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100vh;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Subtle SVG paper texture overlay */
+.paper-grain {
+  background-image: radial-gradient(rgba(22, 24, 29, 0.04) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+.dark .paper-grain,
+[data-theme='night'] .paper-grain {
+  background-image: radial-gradient(rgba(230, 225, 216, 0.04) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* Editorial contour pattern */
+.contour-pattern {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 14px,
+    rgba(26, 83, 65, 0.03) 14px,
+    rgba(26, 83, 65, 0.03) 15px
+  );
+}
+
+/* Print Stylesheet for 1-Page Family Air Plan */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .no-print,
+  nav,
+  header,
+  footer,
+  button:not(.print-include) {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .page-break-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
 }
