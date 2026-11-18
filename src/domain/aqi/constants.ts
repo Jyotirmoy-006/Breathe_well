@@ -1,7 +1,7 @@
 /**
  * @file constants.ts
- * @description Named constants for AQI and PM2.5 calculations.
- * All constants include units in their names for clarity.
+ * @description Named constants for CPCB AQI and PM2.5 calculation formulas.
+ * All constants include units in their names for absolute clarity.
  */
 
 /**
@@ -11,8 +11,12 @@
 export const WHO_PM25_24H_GUIDELINE_UG_M3 = 15 as const;
 
 /**
- * A single CPCB PM2.5 breakpoint entry.
- * Defines the range [loUgM3, hiUgM3] mapped to an AQI category label.
+ * CPCB air quality category labels for PM2.5.
+ */
+export type AqiCategory = 'Good' | 'Satisfactory' | 'Moderate' | 'Poor' | 'Very Poor' | 'Severe';
+
+/**
+ * A single CPCB PM2.5 breakpoint entry for category determination.
  */
 export interface CpcbBreakpointUgM3 {
   /** Lower bound of PM2.5 concentration in µg/m³ (inclusive). */
@@ -20,13 +24,12 @@ export interface CpcbBreakpointUgM3 {
   /** Upper bound of PM2.5 concentration in µg/m³ (inclusive). */
   readonly hiUgM3: number;
   /** Human-readable category label. */
-  readonly category: string;
+  readonly category: AqiCategory;
 }
 
 /**
  * CPCB (Central Pollution Control Board) PM2.5 breakpoints in µg/m³.
  * Based on India's National Air Quality Index standard.
- * @see https://app.cpcbccr.com/ccr/#/caaqm-dashboard-all/caaqm-landing/data
  */
 export const CPCB_PM25_BREAKPOINTS_UG_M3: readonly CpcbBreakpointUgM3[] = [
   { loUgM3: 0, hiUgM3: 30, category: 'Good' },
@@ -35,4 +38,28 @@ export const CPCB_PM25_BREAKPOINTS_UG_M3: readonly CpcbBreakpointUgM3[] = [
   { loUgM3: 91, hiUgM3: 120, category: 'Poor' },
   { loUgM3: 121, hiUgM3: 250, category: 'Very Poor' },
   { loUgM3: 251, hiUgM3: Infinity, category: 'Severe' },
+] as const;
+
+/**
+ * Breakpoint entry for CPCB sub-index linear interpolation formula.
+ * Formula: I = [(I_hi - I_lo)/(B_hi - B_lo)] * (C - B_lo) + I_lo
+ */
+export interface CpcbSubIndexBreakpoint {
+  readonly bLoUgM3: number;
+  readonly bHiUgM3: number;
+  readonly iLoAqi: number;
+  readonly iHiAqi: number;
+  readonly category: AqiCategory;
+}
+
+/**
+ * CPCB PM2.5 sub-index breakpoints mapping PM2.5 concentrations to AQI sub-indices.
+ */
+export const CPCB_SUBINDEX_BREAKPOINTS: readonly CpcbSubIndexBreakpoint[] = [
+  { bLoUgM3: 0, bHiUgM3: 30, iLoAqi: 0, iHiAqi: 50, category: 'Good' },
+  { bLoUgM3: 31, bHiUgM3: 60, iLoAqi: 51, iHiAqi: 100, category: 'Satisfactory' },
+  { bLoUgM3: 61, bHiUgM3: 90, iLoAqi: 101, iHiAqi: 200, category: 'Moderate' },
+  { bLoUgM3: 91, bHiUgM3: 120, iLoAqi: 201, iHiAqi: 300, category: 'Poor' },
+  { bLoUgM3: 121, bHiUgM3: 250, iLoAqi: 301, iHiAqi: 400, category: 'Very Poor' },
+  { bLoUgM3: 251, bHiUgM3: 350, iLoAqi: 401, iHiAqi: 500, category: 'Severe' },
 ] as const;
