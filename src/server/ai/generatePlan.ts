@@ -80,7 +80,7 @@ function collectAllActionIds(plan: ActionPlan): readonly string[] {
   const homeIds = plan.homeAir.actions.map((a) => a.action.id);
   const swapIds = plan.swaps.actions.map((a) => a.action.id);
   const communityIds = plan.community.actions.map((a) => a.action.id);
-  return [...routineIds, ...homeIds, ...swapIds, ...communityIds];
+  return [...routineIds, ...homeIds, ...swapIds, ...communityIds].slice(0, 8);
 }
 
 function resolveAdvisory(category: string): string | undefined {

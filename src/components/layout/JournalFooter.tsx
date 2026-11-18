@@ -17,7 +17,7 @@ export function JournalFooter(): React.JSX.Element {
             <p className="font-serif font-bold text-stone-900 dark:text-stone-100">
               SaafSaans (साफ़ साँस)
             </p>
-            <p className="text-[11px] text-stone-500 dark:text-stone-500">
+            <p className="text-[11px] text-stone-600 dark:text-stone-400">
               Personalized Winter Smog Defense Protocol
             </p>
           </div>
@@ -55,7 +55,9 @@ export function JournalFooter(): React.JSX.Element {
             Privacy Notice: Zero personally identifiable information collected. Geolocation
             coordinates truncated to 2 decimals (~1.1 km resolution).
           </p>
-          <span className="font-mono text-stone-500">v0.1.0 • Built with Google DeepMind</span>
+          <span className="font-mono text-stone-600 dark:text-stone-400">
+            v0.1.0 • Built with Google DeepMind
+          </span>
         </div>
       </div>
     </footer>

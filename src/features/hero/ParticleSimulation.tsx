@@ -92,14 +92,17 @@ export function ParticleSimulation({
     };
     animId = requestAnimationFrame(render);
 
-    const observer = new IntersectionObserver(([entry]) => {
-      isVisibleRef.current = entry?.isIntersecting ?? false;
-    });
-    observer.observe(canvas);
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(([entry]) => {
+        isVisibleRef.current = entry?.isIntersecting ?? false;
+      });
+      observer.observe(canvas);
+    }
 
     return () => {
       cancelAnimationFrame(animId);
-      observer.disconnect();
+      observer?.disconnect();
     };
   }, [pm25]);
 

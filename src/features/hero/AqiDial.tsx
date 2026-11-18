@@ -69,7 +69,7 @@ export function AqiDial({
 
         {/* Center Readout */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-[11px] uppercase tracking-wider font-semibold text-stone-500 dark:text-stone-400">
+          <span className="text-[11px] uppercase tracking-wider font-semibold text-stone-600 dark:text-stone-400">
             CPCB AQI
           </span>
           <span className="text-4xl sm:text-5xl font-extrabold tracking-tight font-serif text-stone-900 dark:text-stone-100">
@@ -93,19 +93,19 @@ export function AqiDial({
       {/* Sub-Pollutants Matrix */}
       <div className="mt-4 grid grid-cols-3 gap-2 w-full pt-3 border-t border-stone-200 dark:border-stone-800 text-center">
         <div>
-          <span className="text-[10px] text-stone-500 dark:text-stone-400 block font-medium">
+          <span className="text-[10px] text-stone-600 dark:text-stone-400 block font-medium">
             PM2.5
           </span>
           <span className="text-xs sm:text-sm font-bold font-mono">{pm25} µg/m³</span>
         </div>
         <div>
-          <span className="text-[10px] text-stone-500 dark:text-stone-400 block font-medium">
+          <span className="text-[10px] text-stone-600 dark:text-stone-400 block font-medium">
             PM10
           </span>
           <span className="text-xs sm:text-sm font-bold font-mono">{pm10} µg/m³</span>
         </div>
         <div>
-          <span className="text-[10px] text-stone-500 dark:text-stone-400 block font-medium">
+          <span className="text-[10px] text-stone-600 dark:text-stone-400 block font-medium">
             NO₂
           </span>
           <span className="text-xs sm:text-sm font-bold font-mono">{no2} µg/m³</span>

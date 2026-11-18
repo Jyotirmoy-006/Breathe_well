@@ -92,7 +92,7 @@ export function ProfileSummaryBadge({
     <div
       className={`flex flex-wrap items-center gap-1.5 p-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-900/50 ${className}`}
     >
-      <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 mr-1">
+      <span className="text-xs font-semibold text-stone-600 dark:text-stone-400 mr-1">
         Current Profile:
       </span>
       {items.map((item) => (

@@ -57,7 +57,7 @@ describe('AI Schema Validation', () => {
     const tooShort = { ...validResponse, dayNarrative: 'Bad air.' };
     expect(isErr(validateAiResponse(tooShort))).toBe(true);
 
-    const tooLong = { ...validResponse, dayNarrative: 'a'.repeat(301) };
+    const tooLong = { ...validResponse, dayNarrative: 'a'.repeat(801) };
     expect(isErr(validateAiResponse(tooLong))).toBe(true);
   });
 

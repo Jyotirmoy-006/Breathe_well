@@ -42,7 +42,7 @@ export function HeroVerdict({
           {planMode === 'ai' ? 'AI-personalized plan' : 'Rule-based plan'}
         </Badge>
         {planModeReason && (
-          <span className="text-xs text-stone-500 dark:text-stone-400">({planModeReason})</span>
+          <span className="text-xs text-stone-600 dark:text-stone-400">({planModeReason})</span>
         )}
       </div>
 
@@ -66,7 +66,7 @@ export function HeroVerdict({
       </div>
 
       {/* Honest Attribution Callout */}
-      <div className="flex items-start gap-2 text-xs text-stone-500 dark:text-stone-400">
+      <div className="flex items-start gap-2 text-xs text-stone-600 dark:text-stone-400">
         <span aria-hidden="true" className="text-sm">
           ℹ️
         </span>

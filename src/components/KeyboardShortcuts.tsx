@@ -96,7 +96,7 @@ export function KeyboardShortcuts(): React.JSX.Element {
             >
               <div>
                 <p className="text-sm font-medium">{item.label}</p>
-                <p className="text-xs text-stone-500 dark:text-stone-400">{item.description}</p>
+                <p className="text-xs text-stone-600 dark:text-stone-400">{item.description}</p>
               </div>
               <KeyboardShortcutHint shortcut={item.key} />
             </div>

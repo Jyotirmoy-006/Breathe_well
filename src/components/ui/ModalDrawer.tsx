@@ -59,7 +59,7 @@ export function ModalDrawer({
                 type="button"
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-200 dark:text-stone-400 dark:hover:text-stone-100 dark:hover:bg-stone-800 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A5341]"
+                className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-200 dark:text-stone-400 dark:hover:text-stone-100 dark:hover:bg-stone-800 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A5341]"
               >
                 ✕
               </button>

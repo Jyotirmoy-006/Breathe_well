@@ -121,7 +121,7 @@ export function PlanFollowUpChat(props: PlanFollowUpChatProps): React.JSX.Elemen
             Have a question about your plan?
           </h3>
         </div>
-        <span className="text-xs font-mono text-stone-500 dark:text-stone-400 bg-stone-200/60 dark:bg-stone-800 px-2 py-0.5 rounded">
+        <span className="text-xs font-mono text-stone-600 dark:text-stone-400 bg-stone-200/60 dark:bg-stone-800 px-2 py-0.5 rounded">
           CPCB & Plan Grounded
         </span>
       </div>
@@ -189,7 +189,7 @@ export function PlanFollowUpChat(props: PlanFollowUpChatProps): React.JSX.Elemen
         </div>
       )}
 
-      <p className="text-[11px] text-stone-500 dark:text-stone-400 italic">
+      <p className="text-[11px] text-stone-600 dark:text-stone-400 italic">
         Deterministic guardrail active: SaafSaans cannot prescribe drugs or provide clinical
         diagnoses.
       </p>

@@ -9,8 +9,8 @@ import { z } from 'zod';
 const envSchema = z.object({
   /** Optional Gemini API key. When absent, app runs in rule-based mode. */
   GEMINI_API_KEY: z.string().optional(),
-  /** Gemini model identifier. Defaults to gemini-2.0-flash. */
-  GEMINI_MODEL: z.string().default('gemini-2.0-flash'),
+  /** Gemini model identifier. Defaults to gemini-3-flash-preview. */
+  GEMINI_MODEL: z.string().default('gemini-3-flash-preview'),
   /** Node environment. */
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 });

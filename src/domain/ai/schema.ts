@@ -12,9 +12,9 @@ import type { Result } from '../result';
  * Zod schema for an unquantified AI creative suggestion.
  */
 export const aiSuggestionSchema = z.object({
-  title: z.string().min(3).max(100),
-  explanation: z.string().min(10).max(500),
-  flaggedAsUnquantified: z.literal(true),
+  title: z.string().min(2).max(150),
+  explanation: z.string().min(5).max(600),
+  flaggedAsUnquantified: z.literal(true).default(true),
 });
 
 /**
@@ -22,17 +22,17 @@ export const aiSuggestionSchema = z.object({
  */
 export const actionRationaleSchema = z.object({
   actionId: z.string().min(1),
-  personalRationale: z.string().min(5).max(300),
+  personalRationale: z.string().min(5).max(400),
 });
 
 /**
  * Master Zod schema validating structured GenAI plan narrative and advice.
  */
 export const structuredAiResponseSchema = z.object({
-  dayNarrative: z.string().min(10).max(300),
+  dayNarrative: z.string().min(10).max(800),
   actionRationales: z.array(actionRationaleSchema),
-  communityTalkingPoints: z.array(z.string().min(5).max(300)),
-  aiSuggestions: z.array(aiSuggestionSchema),
+  communityTalkingPoints: z.array(z.string().min(5).max(400)),
+  aiSuggestions: z.array(aiSuggestionSchema).default([]),
 });
 
 export type StructuredAiResponse = z.infer<typeof structuredAiResponseSchema>;

@@ -5,6 +5,11 @@
 
 @import 'tailwindcss';
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 :root {
   --background: #f4efe6;
   --foreground: #16181d;

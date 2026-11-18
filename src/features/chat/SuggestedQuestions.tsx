@@ -29,7 +29,7 @@ export function SuggestedQuestions(props: SuggestedQuestionsProps): React.JSX.El
 
   return (
     <div className="space-y-1.5" role="group" aria-label="Suggested Questions">
-      <span className="text-xs font-mono font-medium text-stone-500 dark:text-stone-400">
+      <span className="text-xs font-mono font-medium text-stone-600 dark:text-stone-400">
         Suggested inquiries:
       </span>
       <div className="flex flex-wrap gap-2">

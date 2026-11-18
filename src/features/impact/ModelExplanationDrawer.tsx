@@ -40,7 +40,7 @@ export function ModelExplanationDrawer({
           <div className="p-3 rounded-lg bg-stone-100 dark:bg-stone-800 font-mono text-xs text-stone-900 dark:text-stone-100">
             R_combined = 1 - ∏(1 - r_i)
           </div>
-          <p className="text-[11px] text-stone-500 dark:text-stone-400">
+          <p className="text-[11px] text-stone-600 dark:text-stone-400">
             Example: Two interventions each providing 50% protection result in 1 - (1 - 0.5)(1 -
             0.5) = 75% reduction, not 100%.
           </p>

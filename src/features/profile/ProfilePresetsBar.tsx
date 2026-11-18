@@ -56,7 +56,7 @@ export function ProfilePresetsBar({
                 <span aria-hidden="true">{icon}</span>
                 <span>{preset.name}</span>
               </div>
-              <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400 line-clamp-2">
+              <p className="mt-1 text-[11px] text-stone-600 dark:text-stone-400 line-clamp-2">
                 {preset.description}
               </p>
             </button>

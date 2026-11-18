@@ -134,7 +134,7 @@ export function LocationCombobox({
                 }`}
               >
                 <span className="font-semibold">{loc.name}</span>
-                <span className="text-[11px] text-stone-500 dark:text-stone-400">
+                <span className="text-[11px] text-stone-600 dark:text-stone-400">
                   {[loc.admin1, loc.country].filter(Boolean).join(', ')}
                 </span>
               </li>

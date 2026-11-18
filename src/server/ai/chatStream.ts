@@ -44,7 +44,10 @@ async function streamFromGemini(
   prompt: string,
   fallbackText: string,
 ): Promise<ReadableStream<Uint8Array>> {
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({
+    apiKey,
+    httpOptions: { apiVersion: 'v1beta' },
+  });
   const encoder = new TextEncoder();
 
   try {

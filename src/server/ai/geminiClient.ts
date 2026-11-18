@@ -13,8 +13,8 @@ import type { Result } from '@/domain/result';
 import { env } from '@/server/env';
 import { logger } from '@/server/logger';
 
-/** Timeout in milliseconds for Gemini API requests: 8 seconds. */
-export const GEMINI_TIMEOUT_MS = 8_000 as const;
+/** Timeout in milliseconds for Gemini API requests: 15 seconds. */
+export const GEMINI_TIMEOUT_MS = 15_000 as const;
 
 /** Exponential backoff delay for transient retries: 1 second. */
 export const RETRY_DELAY_MS = 1_000 as const;
@@ -119,7 +119,10 @@ export async function requestGeminiPersonalization(
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({
+      apiKey: env.GEMINI_API_KEY,
+      httpOptions: { apiVersion: 'v1beta' },
+    });
     const rawText = await executeWithRetry(ai, prompt);
     const cleaned = cleanResponseText(rawText);
     const parsedJson: unknown = JSON.parse(cleaned);

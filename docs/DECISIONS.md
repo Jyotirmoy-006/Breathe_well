@@ -139,3 +139,23 @@ Final deployment requires low latency for users in India, robust caching headers
 2. **Cache Headers:** Configure `s-maxage=600, stale-while-revalidate=120` for air quality endpoints to shield upstream providers while serving fast cached responses.
 3. **Automated Smoke Test Script:** Create `scripts/smoke.mjs` verifying status codes, JSON response schemas, and strict security headers (`CSP`, `nosniff`, `DENY`) against any deployed URL.
 4. **Repository Size Guard:** Maintain an automated check ensuring tracked repository assets remain below 5 MB.
+
+---
+
+## ADR-008: Hardening Pass — Live Model Pinning, PostCSS, and Axe-Core E2E
+
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
+
+### Context
+
+Prior to publication, production builds must be verified with active API keys, real browser engines, and rigorous accessibility assertions.
+
+### Decisions
+
+1. **Gemini Model Selection:** Verified live Google Generative AI endpoints; deprecated `gemini-2.0-flash` and `gemini-2.5-flash` replaced with `gemini-3-flash-preview` using `apiVersion: 'v1beta'`.
+2. **PostCSS with Tailwind v4:** Integrated `@tailwindcss/postcss` and `postcss.config.mjs` ensuring atomic utility classes compile into the production bundle.
+3. **WCAG 2.1 AA Contrast Enforcement:** Updated secondary and muted text across all UI elements (`HeroVerdict`, `AqiDial`, `ImpactExposureMeter`, `JournalFooter`, `ModelExplanationDrawer`) from `text-stone-500` to `text-stone-600 dark:text-stone-400` ensuring contrast ratios exceed 5.5:1 against the `#FAF6EE` paper background.
+4. **Real-Browser Axe-Core Auditing:** Automated `@axe-core/playwright` across desktop and mobile viewports, auditing light and night themes, modal drawers, and all interactive controls with zero violations.
+5. **Opt-in Live Smoke Script:** Added `scripts/smoke-live.mjs` (`npm run smoke:live`) for opt-in verification of live Gemini response schema validation, streaming tokens, and deterministic medical guardrails without compromising CI safety.
