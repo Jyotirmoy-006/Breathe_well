@@ -116,4 +116,25 @@ describe('PlanSection', () => {
     expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(screen.getByText(/breathing difficulty or chest discomfort/i)).toBeInTheDocument();
   });
+
+  it('expands action item card to reveal rationale and toggles selection', () => {
+    const handleToggle = vi.fn();
+    render(
+      <PlanSection
+        plan={testPlan}
+        activeLocale="en"
+        onLocaleChange={vi.fn()}
+        selectedActionIds={new Set(['routine-n95-commute'])}
+        onToggleAction={handleToggle}
+      />,
+    );
+
+    const toggleBtn = screen.getAllByRole('button', { name: /toggle details for/i })[0]!;
+    fireEvent.click(toggleBtn);
+    expect(screen.getByText(/why this matters/i)).toBeInTheDocument();
+
+    const checkbox = screen.getAllByRole('checkbox')[0]!;
+    fireEvent.click(checkbox);
+    expect(handleToggle).toHaveBeenCalled();
+  });
 });

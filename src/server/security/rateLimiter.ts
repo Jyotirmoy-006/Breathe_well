@@ -104,6 +104,11 @@ export const planRateLimiter = new MemoryRateLimiter({
   maxRequests: 10,
 });
 
+export const chatRateLimiter = new MemoryRateLimiter({
+  windowMs: 60_000,
+  maxRequests: 20,
+});
+
 /**
  * Creates a dedicated rate limiter instance.
  *

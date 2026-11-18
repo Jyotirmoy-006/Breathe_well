@@ -34,6 +34,7 @@ export function SkylineHaze({ pm25, className = '' }: SkylineHazeProps): React.J
 
   return (
     <div
+      role="img"
       className={`relative w-full h-48 sm:h-64 overflow-hidden rounded-2xl border border-stone-300 dark:border-stone-800 bg-linear-to-b from-sky-100 via-amber-50 to-stone-200 dark:from-slate-900 dark:via-stone-900 dark:to-stone-950 transition-colors duration-500 ${className}`}
       aria-label={`City skyline showing visual smog representation for PM2.5 of ${String(pm25)} micrograms per cubic meter`}
     >

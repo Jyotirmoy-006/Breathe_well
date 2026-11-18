@@ -77,4 +77,39 @@ describe('ProfileSection', () => {
     fireEvent.change(commuteSelect, { target: { value: 'walk_cycle' } });
     expect(screen.getByText('Walk / Cycle')).toBeInTheDocument();
   });
+
+  it('updates children, elderly, sensitive toggles and dwelling selects', () => {
+    const handleProfileChange = vi.fn();
+    render(<ProfileSection profile={baseProfile} onProfileChange={handleProfileChange} />);
+
+    fireEvent.click(screen.getByRole('button', { name: /customize details/i }));
+
+    const childrenToggle = screen.getByLabelText(/children/i);
+    fireEvent.click(childrenToggle);
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const elderlyToggle = screen.getByLabelText(/elderly/i);
+    fireEvent.click(elderlyToggle);
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const sensitiveToggle = screen.getByLabelText(/sensitive health/i);
+    fireEvent.click(sensitiveToggle);
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const homeSelect = screen.getByLabelText(/home type/i);
+    fireEvent.change(homeSelect, { target: { value: 'hostel' } });
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const fuelSelect = screen.getByLabelText(/cooking fuel/i);
+    fireEvent.change(fuelSelect, { target: { value: 'electric' } });
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const heatingSelect = screen.getByLabelText(/winter heating/i);
+    fireEvent.change(heatingSelect, { target: { value: 'wood_angithi' } });
+    expect(handleProfileChange).toHaveBeenCalled();
+
+    const budgetSelect = screen.getByLabelText(/budget tier/i);
+    fireEvent.change(budgetSelect, { target: { value: 'free' } });
+    expect(handleProfileChange).toHaveBeenCalled();
+  });
 });

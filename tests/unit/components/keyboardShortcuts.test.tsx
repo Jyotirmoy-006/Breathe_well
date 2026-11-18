@@ -66,4 +66,15 @@ describe('KeyboardShortcuts', () => {
     fireEvent.keyDown(input, { key: 't' });
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
+
+  it('opens modal via button click and closes via modal close button', () => {
+    render(<ShortcutTestHarness />);
+    const openBtn = screen.getByRole('button', { name: /open keyboard shortcuts/i });
+    fireEvent.click(openBtn);
+    expect(screen.getByText(/navigate saafsaans rapidly/i)).toBeInTheDocument();
+
+    const closeBtn = screen.getByRole('button', { name: /close/i });
+    fireEvent.click(closeBtn);
+    expect(screen.queryByText(/navigate saafsaans rapidly/i)).not.toBeInTheDocument();
+  });
 });

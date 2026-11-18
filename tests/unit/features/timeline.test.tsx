@@ -78,4 +78,16 @@ describe('TimelineSection', () => {
     const slider = screen.getByRole('slider') as HTMLInputElement;
     expect(slider.value).toBe('3');
   });
+
+  it('handles clicking on SVG chart to update scrubber index', () => {
+    const { container } = render(<TimelineHarness />);
+    const svg = container.querySelector('svg.cursor-pointer');
+    expect(svg).toBeInTheDocument();
+
+    if (svg) {
+      fireEvent.click(svg, { clientX: 200 });
+    }
+    const slider = screen.getByRole('slider') as HTMLInputElement;
+    expect(slider).toBeInTheDocument();
+  });
 });

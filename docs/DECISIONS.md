@@ -1,118 +1,141 @@
-# Architecture Decision Records
+# Architecture Decision Records (ADRs)
 
-## ADR-001: Phase 1 Scaffold Decisions
-
-**Date:** 2026-11-18  
-**Status:** Accepted  
-**Deciders:** SaafSaans Team
+This document records the architectural and design decisions made throughout the development of **SaafSaans (साफ़ साँस)** across Phases 1 through 8.
 
 ---
+
+## ADR-001: Next.js 16 App Router & Strict Tooling Scaffolding (Phase 1)
+
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
 
 ### Context
 
-Phase 1 establishes the foundational scaffold for SaafSaans, a GenAI-powered winter-smog assistant. All tooling, linting, testing, and CI decisions made here will govern the entire project lifecycle.
-
----
+Phase 1 established the foundation for a resilient, performant web application addressing winter smog in India. Tooling and budget rules established here govern all subsequent phases.
 
 ### Decisions
 
-#### Framework: Next.js 16 App Router
-
-**Decision:** Use Next.js 16 with the App Router (not Pages Router).  
-**Rationale:** App Router enables React Server Components by default, reducing client bundle size. Layouts, loading, and error boundaries are co-located with routes. `--turbo` flag for Turbopack gives faster dev experience.
-
----
-
-#### Language: TypeScript with strict settings
-
-**Decision:** `strict: true` plus `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`.  
-**Rationale:** These catch entire classes of null-pointer and index-out-of-bounds bugs at compile time. The overhead in authoring is offset by elimination of runtime surprises in production air-quality data processing.
-
----
-
-#### Styling: Tailwind CSS v4
-
-**Decision:** Tailwind CSS 4 with PostCSS.  
-**Rationale:** Tailwind 4 uses `@import "tailwindcss"` syntax (no config file needed by default). Utility-first CSS keeps component files self-contained and eliminates stylesheet churn.
+1. **Next.js 16 with App Router:** Leverage React Server Components (RSC) to minimize client-side JavaScript bundle sizes and maximize performance.
+2. **Strict TypeScript:** Enforce `strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`, and branded primitive types.
+3. **Strict Code Quality Budgets in ESLint 10:**
+   - Functions $\le$ 40 lines
+   - Cyclomatic complexity $\le$ 8
+   - Nesting depth $\le$ 3
+   - Max parameters $\le$ 4
+   - File length $\le$ 200 lines (300 for tests)
+   - Zero console statements outside `src/server/logger.ts`
+   - Banned default exports except where Next.js framework requires them.
+4. **Testing Suite:** Vitest for lightning-fast unit tests with v8 coverage, and Playwright with axe-core for end-to-end browser automation.
 
 ---
 
-#### Testing: Vitest + Testing Library + Playwright
+## ADR-002: Pure Deterministic Domain Engine & Branded Types (Phase 2)
 
-**Decision:** Vitest for unit/integration, Playwright + axe-core for E2E and accessibility testing.  
-**Rationale:** Vitest shares the Vite toolchain with Next.js dev, giving fast watch mode. Playwright is the gold standard for browser-based E2E. axe-core enforces WCAG 2.1 AA accessibility in automated tests.
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
 
----
+### Context
 
-#### Coverage Thresholds
+Air quality metrics, piecewise linear sub-indices, and exposure reduction calculations are safety-critical. Inaccurate numbers or hallucinations could lead users to exercise during hazardous air episodes.
 
-**Decision:** Overall ≥ 90%; domain layer ≥ 95%.  
-**Rationale:** Domain logic (AQI calculations, exposure models) is pure TypeScript with no IO side effects, making 95%+ coverage achievable. Higher thresholds here give the most safety per test written.
+### Decisions
 
----
-
-#### Linting: ESLint 10 flat config
-
-**Decision:** ESLint 10 with flat config (`eslint.config.mjs`), `typescript-eslint` strict preset.  
-**Rationale:** ESLint 10 is the first version where flat config is the default. `typescript-eslint` strict-type-checked provides stronger checks than base rules alone.
-
-**Key budget rules:**
-
-- `max-lines: 200` — keeps files focused and reviewable
-- `complexity: 8` — forces decomposition of complex branching logic
-- `max-depth: 3` — prevents deeply nested callback pyramids
-- `max-params: 4` — encourages data objects over long argument lists
-- `no-console: error` — all logging goes through `src/server/logger.ts`
-- `import/no-default-export` — enforced everywhere except Next.js-required files
+1. **Separation of Concerns:** The domain layer (`src/domain/`) is strictly pure TypeScript with zero side-effects, zero network calls, and 100% test coverage.
+2. **Branded Types:** Created `AqiIndex`, `Pm25UgM3`, `KgCo2e`, and `Percentage` branded types to make accidental unit mixing a compile-time error.
+3. **CPCB Breakpoints Standard:** Implement piecewise linear interpolation strictly according to the Central Pollution Control Board (CPCB) National Air Quality Index technical manual.
+4. **Multiplicative Non-Double-Counting Model:** Adopt $R = 1 - \prod (1 - r_i)$ with an 85% physical ceiling to prevent misleading additive inflation of filtration claims.
 
 ---
 
-#### No Default Exports Policy
+## ADR-003: Server Layer Security, SSRF Allowlisting, & Gemini SDK (Phase 3)
 
-**Decision:** Default exports banned except in Next.js-required files (layout, page, error, route handlers, config files).  
-**Rationale:** Named exports make auto-import, refactoring, and tree-shaking deterministic. Default exports allow renaming on import, leading to inconsistency.
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
 
----
+### Context
 
-#### Branded Types for Domain Primitives
+The application consumes external meteorological data and interfaces with Google Gemini. It must remain secure against SSRF, prompt injection, and unexpected API outages.
 
-**Decision:** Use TypeScript branded types for `AqiIndex`, `Pm25UgM3`.  
-**Rationale:** Prevents unit confusion bugs (passing raw PM2.5 where AQI is expected, or µg/m³ where ppb is expected). Zero runtime cost—brands are type-only.
+### Decisions
 
----
-
-#### Named Constants with Units
-
-**Decision:** All constants include units in their names (e.g., `WHO_PM25_24H_GUIDELINE_UG_M3`, not `WHO_GUIDELINE`).  
-**Rationale:** Eliminates documentation lookups at usage sites and prevents unit mismatch bugs.
+1. **SSRF Host Allowlist:** All outbound server fetches must pass through an allowlist validator (`src/server/security/fetchAllowlist.ts`) permitting only Open-Meteo and Google Generative AI endpoints.
+2. **In-Memory IP Rate Limiting:** Enforce sliding-window rate limiters across all API routes to safeguard server resources and external quotas.
+3. **Gemini SDK with Resilient Fallback:** Wrap `@google/genai` calls with an 8-second timeout, a single exponential backoff retry on transient 429/503 errors, and automatic fallback to rule-based generation when the API key is absent or invalid.
+4. **Zero Number Hallucination Directive:** Gemini prompts are instructed with strict negative constraints ("ZERO NUMBERS") and JSON schema validation, ensuring the LLM only generates empathetic qualitative narratives.
 
 ---
 
-#### Environment Validation
+## ADR-004: Atmosphere Journal Editorial Design System (Phase 4 & 5)
 
-**Decision:** Validate `process.env` with Zod at startup in `src/server/env.ts`.  
-**Rationale:** Fail fast with a clear message if required env vars are missing or malformed. The exported `isAiEnabled` flag allows graceful degradation to rule-based mode when no API key is configured.
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
 
----
+### Context
 
-#### AI Graceful Degradation
+Standard weather dashboards are visually cluttered, relying on heavy third-party charting libraries that bloat bundles and complicate accessibility.
 
-**Decision:** App operates in two modes — "ai" (Gemini API key present) and "rule-based" (no key).  
-**Rationale:** Hackathon demo must work without API key for judges who cannot configure secrets. The `/api/health` endpoint exposes the current mode.
+### Decisions
 
----
-
-#### Repo Size Limits
-
-**Decision:** Tracked files ≤ 5 MB; `.git` directory ≤ 8 MB.  
-**Rationale:** Prevents accidental large binary or model file commits. Enforced via `scripts/check-repo-size.mjs` in CI.
+1. **Atmosphere Journal Theme:** Adopt a clean, editorial broadsheet aesthetic utilizing an off-white paper texture (`#FBF9F5`), deep forest green (`#1A5341`), mint teal (`#2DD4BF`), and elegant serif typography.
+2. **Zero External Charting Libraries:** Implement the 48-hour forecast area chart and AQI dial using hand-crafted, accessible inline SVG components with gradient fills and timeline scrubbing.
+3. **Interactive Visual Smog Skyline:** Render a 4-layer parallax skyline whose haze opacity dynamically interpolates between 0.10 and 0.85 based on PM2.5 levels.
+4. **One-Page Printable Family Air Plan:** Provide a dedicated `@media print` cheat-sheet formatted specifically for physical display on family refrigerator doors.
 
 ---
 
-### Consequences
+## ADR-005: Automated Accessibility Auditing & WCAG 2.1 AA Compliance (Phase 6)
 
-- Developers must use `logger` from `src/server/logger.ts` for all logging.
-- All new domain types should be branded primitives.
-- All constants must include their units in the name.
-- Files exceeding 200 lines must be refactored before merging.
-- Functions exceeding complexity 8 must be decomposed.
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
+
+### Context
+
+Public health tools must be fully usable by individuals with visual impairments, motor challenges, or sensory sensitivities.
+
+### Decisions
+
+1. **Automated axe-core Audits:** Integrate `axe-core` in Vitest to run programmatic accessibility audits against every core feature across all AQI tiers and color themes, requiring zero violations.
+2. **Screen-Reader & Keyboard Accessibility:** Ensure all interactive elements have explicit accessible labels, logical heading hierarchies (`h1` $\to$ `h2` $\to$ `h3`), tab panels with roving `aria-selected` attributes, and `aria-live="polite"` regions for asynchronous updates.
+3. **Motion Preferences:** Honor `prefers-reduced-motion` across canvas particle simulations and CSS transitions.
+
+---
+
+## ADR-006: Grounded Follow-up Streaming Q&A & Medical Guardrail (Phase 8)
+
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
+
+### Context
+
+Users frequently have follow-up questions about their generated plan (e.g., child outdoor play or DIY filter cleaning), but must never receive unvalidated medical or pharmaceutical advice.
+
+### Decisions
+
+1. **Deterministic Medical Guardrail:** Questions containing medical, clinical, or pharmaceutical keywords (e.g., dosage, cetirizine, diagnosis) are intercepted deterministically and returned with a standard clinical referral message without invoking the LLM.
+2. **Strict Grounding:** Gemini prompts strictly isolate user input within delimiters and instruct the model to cite only facts present in the provided action plan and official CPCB guidelines.
+3. **Streaming Text Protocol:** Return a Web standard `ReadableStream<Uint8Array>` via Next.js App Router for low-latency token rendering in an accessible `aria-live` container.
+
+---
+
+## ADR-007: Production Hardening, Edge Routing, & Smoke Verification (Phase 7)
+
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Deciders:** SaafSaans Team
+
+### Context
+
+Final deployment requires low latency for users in India, robust caching headers, and automated smoke test validation.
+
+### Decisions
+
+1. **Mumbai Region (`bom1`):** Configure `vercel.json` to route serverless functions to the Mumbai AWS/GCP edge (`bom1`), cutting round-trip latency across South Asia.
+2. **Cache Headers:** Configure `s-maxage=600, stale-while-revalidate=120` for air quality endpoints to shield upstream providers while serving fast cached responses.
+3. **Automated Smoke Test Script:** Create `scripts/smoke.mjs` verifying status codes, JSON response schemas, and strict security headers (`CSP`, `nosniff`, `DENY`) against any deployed URL.
+4. **Repository Size Guard:** Maintain an automated check ensuring tracked repository assets remain below 5 MB.

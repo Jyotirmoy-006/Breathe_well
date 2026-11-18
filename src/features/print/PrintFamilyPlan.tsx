@@ -44,9 +44,9 @@ export function PrintFamilyPlan({ data, className = '' }: PrintFamilyPlanProps):
         {/* Header */}
         <div className="border-b-2 border-black pb-2 flex justify-between items-end">
           <div>
-            <h1 className="text-xl font-bold font-serif tracking-tight">
+            <h2 className="text-xl font-bold font-serif tracking-tight">
               SaafSaans (साफ़ साँस) — Family Air Plan
-            </h1>
+            </h2>
             <p className="text-[11px] font-mono">
               Location: <strong>{data.locationName}</strong> | AQI: <strong>{data.aqi}</strong> (
               {data.cpcbCategory}) | PM2.5: <strong>{data.pm25} µg/m³</strong>

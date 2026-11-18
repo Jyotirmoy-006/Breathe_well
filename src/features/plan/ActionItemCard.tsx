@@ -59,9 +59,9 @@ export function ActionItemCard({
             className="mt-1 h-5 w-5 rounded border-stone-300 text-[#1A5341] accent-[#1A5341] dark:accent-[#2DD4BF] cursor-pointer"
           />
           <label htmlFor={`action-check-${action.id}`} className="cursor-pointer">
-            <h4 className="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
+            <span className="block text-sm sm:text-base font-bold text-stone-900 dark:text-stone-100">
               {action.title}
-            </h4>
+            </span>
             <p className="mt-1 text-xs text-stone-600 dark:text-stone-300">{action.description}</p>
           </label>
         </div>

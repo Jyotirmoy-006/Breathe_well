@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { Tabs } from '../../components/ui/Tabs';
 import type { TabItem } from '../../components/ui/Tabs';
+import { PlanFollowUpChat } from '../chat';
 
 import { CommunityTab } from './CommunityTab';
 import { HomeAirTab } from './HomeAirTab';
@@ -115,6 +116,14 @@ export function PlanSection(props: PlanSectionProps): React.JSX.Element {
       >
         {renderActiveTabContent(activeTab, props)}
       </div>
+
+      <PlanFollowUpChat
+        plan={plan}
+        aqiSummary={{
+          currentPm25: plan.currentPm25,
+          category: plan.aqiCategory,
+        }}
+      />
     </section>
   );
 }

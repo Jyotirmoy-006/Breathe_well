@@ -74,7 +74,8 @@ export function TimelineSvgChart({
         className="w-full h-44 sm:h-52 cursor-pointer select-none"
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
-          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          const width = rect.width > 0 ? rect.width : 800;
+          const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / width));
           const idx = Math.round(ratio * (hourly.length - 1));
           onSelectIndex(idx);
         }}

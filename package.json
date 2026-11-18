@@ -15,6 +15,7 @@
     "test:e2e": "playwright test",
     "knip": "knip",
     "audit": "npm audit --audit-level moderate",
+    "smoke": "node scripts/smoke.mjs",
     "repo-size": "node scripts/check-repo-size.mjs",
     "postinstall": "node scripts/postinstall.mjs",
     "verify": "npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run build && npm run knip && npm run audit"
